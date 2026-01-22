@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useRef, useState, useMemo } from "react";
-import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Color } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Canvas, extend, type ThreeElement } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -14,7 +14,6 @@ declare module "@react-three/fiber" {
 extend({ ThreeGlobe });
 
 const RING_PROPAGATION_SPEED = 3;
-const aspect = 1.2;
 const cameraZ = 300;
 
 type Position = {
@@ -91,19 +90,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     ...globeConfig,
   };
 
-  useEffect(() => {
-    if (globeRef.current) {
-      globeRef.current.frustumCulled = false;
-      // Disable frustum culling for all children to prevent NaN bounding sphere errors
-      globeRef.current.traverse((obj) => {
-        obj.frustumCulled = false;
-      });
-      _buildData();
-      _buildMaterial();
-    }
-  }, [globeRef.current]);
-
-  const _buildMaterial = () => {
+  const _buildMaterial = useCallback(() => {
     if (!globeRef.current) return;
 
     const globeMaterial = globeRef.current.globeMaterial() as unknown as {
@@ -116,9 +103,9 @@ export function Globe({ globeConfig, data }: WorldProps) {
     globeMaterial.emissive = new Color(globeConfig.emissive);
     globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
     globeMaterial.shininess = globeConfig.shininess || 0.9;
-  };
+  }, [globeConfig.globeColor, globeConfig.emissive, globeConfig.emissiveIntensity, globeConfig.shininess]);
 
-  const _buildData = () => {
+  const _buildData = useCallback(() => {
     const arcs = data;
     const points: GlobePoint[] = [];
     for (let i = 0; i < arcs.length; i++) {
@@ -161,31 +148,9 @@ export function Globe({ globeConfig, data }: WorldProps) {
     );
 
     setGlobeData(filteredPoints);
-  };
+  }, [data, defaultProps.pointSize]);
 
-  useEffect(() => {
-    if (globeRef.current && globeData) {
-      globeRef.current
-        .hexPolygonsData(countries.features)
-        .hexPolygonResolution(3)
-        .hexPolygonMargin(0.7)
-        .showAtmosphere(defaultProps.showAtmosphere)
-        .atmosphereColor(defaultProps.atmosphereColor)
-        .atmosphereAltitude(defaultProps.atmosphereAltitude)
-        .hexPolygonColor((e) => {
-          return defaultProps.polygonColor;
-        });
-      
-      // Disable frustum culling for hex polygons
-      globeRef.current.traverse((obj) => {
-        obj.frustumCulled = false;
-      });
-
-      startAnimation();
-    }
-  }, [globeData]);
-
-  const startAnimation = () => {
+  const startAnimation = useCallback(() => {
     if (!globeRef.current || !globeData || !data) return;
 
     // Filter out invalid data
@@ -205,28 +170,29 @@ export function Globe({ globeConfig, data }: WorldProps) {
     try {
       globeRef.current
         .arcsData(validArcs)
-        .arcStartLat((d) => (d as any).startLat)
-        .arcStartLng((d) => (d as any).startLng)
-        .arcEndLat((d) => (d as any).endLat)
-        .arcEndLng((d) => (d as any).endLng)
-        .arcColor((e: any) => e.color)
-        .arcAltitude((e: any) => e.arcAlt || 0)
-        .arcStroke((e: any) => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
+        .arcStartLat((d: object) => (d as Position).startLat)
+        .arcStartLng((d: object) => (d as Position).startLng)
+        .arcEndLat((d: object) => (d as Position).endLat)
+        .arcEndLng((d: object) => (d as Position).endLng)
+        .arcColor((e: object) => (e as Position).color)
+        .arcAltitude((e: object) => (e as Position).arcAlt || 0)
+        .arcStroke(() => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
         .arcDashLength(defaultProps.arcLength)
-        .arcDashInitialGap((e: any) => e.order || 0)
+        .arcDashInitialGap((e: object) => (e as Position).order || 0)
         .arcDashGap(15)
-        .arcDashAnimateTime((e: any) => defaultProps.arcTime);
+        .arcDashAnimateTime(() => defaultProps.arcTime);
 
       globeRef.current
         .pointsData(globeData)
-        .pointColor((e: any) => {
-          const colorFn = e.color;
+        .pointColor((e: object) => {
+          const point = e as GlobePoint;
+          const colorFn = point.color;
           if (typeof colorFn === 'function') {
             const rgba = colorFn(0);
             const match = rgba.match(/rgba\((\d+),\s*(\d+),\s*(\d+),/);
             return match ? `rgb(${match[1]}, ${match[2]}, ${match[3]})` : rgba;
           }
-          return e.color || "#ffffff";
+          return (point as unknown as { color: string }).color || "#ffffff";
         })
         .pointsMerge(true)
         .pointAltitude(0.0)
@@ -234,7 +200,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
       globeRef.current
         .ringsData([])
-        .ringColor((e: any) => (t: number) => e.color(t))
+        .ringColor((e: object) => (t: number) => (e as GlobePoint).color(t))
         .ringMaxRadius(defaultProps.maxRings)
         .ringPropagationSpeed(RING_PROPAGATION_SPEED)
         .ringRepeatPeriod(
@@ -248,7 +214,41 @@ export function Globe({ globeConfig, data }: WorldProps) {
     } catch (err) {
       console.error("Error initializing ThreeGlobe data:", err);
     }
-  };
+  }, [data, globeData, defaultProps.arcLength, defaultProps.arcTime, defaultProps.maxRings, defaultProps.rings]);
+
+  useEffect(() => {
+    if (globeRef.current) {
+      globeRef.current.frustumCulled = false;
+      // Disable frustum culling for all children to prevent NaN bounding sphere errors
+      globeRef.current.traverse((obj) => {
+        obj.frustumCulled = false;
+      });
+      _buildData();
+      _buildMaterial();
+    }
+  }, [globeRef.current, _buildData, _buildMaterial]);
+
+  useEffect(() => {
+    if (globeRef.current && globeData) {
+      globeRef.current
+        .hexPolygonsData(countries.features)
+        .hexPolygonResolution(3)
+        .hexPolygonMargin(0.7)
+        .showAtmosphere(defaultProps.showAtmosphere)
+        .atmosphereColor(defaultProps.atmosphereColor)
+        .atmosphereAltitude(defaultProps.atmosphereAltitude)
+        .hexPolygonColor(() => {
+          return defaultProps.polygonColor;
+        });
+      
+      // Disable frustum culling for hex polygons
+      globeRef.current.traverse((obj) => {
+        obj.frustumCulled = false;
+      });
+
+      startAnimation();
+    }
+  }, [globeData, defaultProps.showAtmosphere, defaultProps.atmosphereColor, defaultProps.atmosphereAltitude, defaultProps.polygonColor, startAnimation]);
 
   useEffect(() => {
     if (!globeRef.current || !globeData) return;

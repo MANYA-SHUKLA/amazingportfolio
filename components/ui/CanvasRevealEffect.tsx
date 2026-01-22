@@ -211,17 +211,14 @@ const ShaderMaterial = ({
     }
   });
 
-  // Check if size is valid before rendering
-  if (!size || !size.width || !size.height || isNaN(size.width) || isNaN(size.height) || size.width <= 0 || size.height <= 0) {
-    return null;
-  }
-
   // Ensure size is valid (not NaN, undefined, or zero)
-  const validWidth = size.width;
-  const validHeight = size.height;
+  const isValidSize = !!(size && size.width && size.height && !isNaN(size.width) && !isNaN(size.height) && size.width > 0 && size.height > 0);
+  const validWidth = isValidSize ? size.width : 1;
+  const validHeight = isValidSize ? size.height : 1;
 
   // Shader material
   const material = useMemo(() => {
+    if (!isValidSize) return null;
     const getUniforms = () => {
       const preparedUniforms: Record<string, THREE.IUniform> = {};
 
@@ -285,17 +282,22 @@ const ShaderMaterial = ({
     });
 
     return materialObject;
-  }, [uniforms, validWidth, validHeight, source]);
+  }, [uniforms, validWidth, validHeight, source, isValidSize]);
 
   // Update resolution uniform when size changes
   useEffect(() => {
-    if (ref.current && material) {
+    if (isValidSize && ref.current && material) {
       const materialObj = ref.current.material as THREE.ShaderMaterial;
       if (materialObj.uniforms?.u_resolution) {
         materialObj.uniforms.u_resolution.value.set(validWidth * 2, validHeight * 2);
       }
     }
-  }, [validWidth, validHeight, material]);
+  }, [validWidth, validHeight, material, isValidSize]);
+
+  // Check if size is valid before rendering
+  if (!isValidSize || !material) {
+    return null;
+  }
 
   return (
     <mesh ref={ref} frustumCulled={false}>
