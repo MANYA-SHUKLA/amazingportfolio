@@ -1,4 +1,4 @@
-# Modern Portfolio - Amazing Portfolio
+# Modern Portfolio - Manya Shukla
 
 A high-performance, visually stunning portfolio website built with modern web technologies. This project showcases professional experience, featured projects, and technical skills with immersive 3D elements and smooth animations.
 
@@ -12,16 +12,39 @@ A high-performance, visually stunning portfolio website built with modern web te
 - **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
 - **Monitoring**: [Sentry](https://sentry.io/)
 
-## ✨ Key Features
+## ✨ Key Features & Sections
 
-- **Immersive 3D Hero Section**: Captivating visual entry point using Three.js.
-- **Dynamic Project Showcase**: Interactive display of recent projects with detailed descriptions and tech badges.
-- **Bento Grid Layout**: Modern and organized layout for technical skills and personal highlights.
-- **Testimonials Slider**: Social proof through an infinite moving cards component.
-- **Work Experience Timeline**: Clearly structured professional history.
-- **Approach & Process**: A step-by-step breakdown of the development methodology.
-- **Fully Responsive**: Optimized for all devices, from mobile to desktop.
-- **Performance Optimized**: Built with Next.js for fast load times and SEO.
+### 1. **Immersive Hero Section**
+- **Spotlight Effect**: Dynamic spotlight animations that follow the layout.
+- **Text Generate Effect**: Smooth reveal animation for the main catchphrase.
+- **Interactive Background**: A grid-based background with radial gradients for depth.
+
+### 2. **Bento Grid (About Section)**
+- **Interactive Cards**: Highlighting client collaboration, time zone flexibility, and tech stack.
+- **Lottie Animations**: Engaging visual elements for specific grid items.
+- **Dynamic Content**: Displays a personalized "Inside Scoop" about current learning and projects.
+
+### 3. **Recent Projects Showcase**
+- **3D Pin Effect**: Interactive project cards that "pin" on hover.
+- **Tech Badges**: Displays the technologies used for each project with overlapping icon badges.
+- **Live Demo Links**: Easy navigation to live project demonstrations.
+
+### 4. **Client Testimonials**
+- **Infinite Moving Cards**: A seamless, auto-scrolling display of client feedback.
+- **Company Logos**: Displays partner logos to build trust and credibility.
+
+### 5. **Professional Work Experience**
+- **Moving Borders**: Cards with animated borders that respond to hover.
+- **Responsive Layout**: Adapts from a grid to a single column for mobile users.
+
+### 6. **Development Approach**
+- **Canvas Reveal Effect**: Unique hover-triggered visual reveal for different development phases.
+- **Phase-based Strategy**: Explains the process from "Planning & Strategy" to "Development & Launch".
+
+### 7. **Interactive Footer**
+- **Contact Form**: Direct "Let's get in touch" call to action.
+- **Social Media Links**: Integrated social profiles with glassmorphism effects.
+- **Background Grid**: A subtle footer grid for a cohesive design finish.
 
 ## 📁 Project Structure
 
