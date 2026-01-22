@@ -1,13 +1,13 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
-import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
+import { useThree, Canvas, extend, type ThreeElement } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
+    threeGlobe: ThreeElement<typeof ThreeGlobe>;
   }
 }
 
@@ -58,17 +58,17 @@ interface WorldProps {
   data: Position[];
 }
 
-let numbersOfRings = [0];
-
 export function Globe({ globeConfig, data }: WorldProps) {
+  const [numbersOfRings, setNumbersOfRings] = useState<number[]>([0]);
+  type GlobePoint = {
+    size: number;
+    order: number;
+    color: (t: number) => string;
+    lat: number;
+    lng: number;
+  };
   const [globeData, setGlobeData] = useState<
-    | {
-        size: number;
-        order: number;
-        color: (t: number) => string;
-        lat: number;
-        lng: number;
-      }[]
+    | GlobePoint[]
     | null
   >(null);
 
@@ -93,6 +93,11 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   useEffect(() => {
     if (globeRef.current) {
+      globeRef.current.frustumCulled = false;
+      // Disable frustum culling for all children to prevent NaN bounding sphere errors
+      globeRef.current.traverse((obj) => {
+        obj.frustumCulled = false;
+      });
       _buildData();
       _buildMaterial();
     }
@@ -115,10 +120,20 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   const _buildData = () => {
     const arcs = data;
-    let points = [];
+    const points: GlobePoint[] = [];
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
+      // Validate that all required values are valid numbers
+      if (
+        typeof arc.startLat !== 'number' || isNaN(arc.startLat) ||
+        typeof arc.startLng !== 'number' || isNaN(arc.startLng) ||
+        typeof arc.endLat !== 'number' || isNaN(arc.endLat) ||
+        typeof arc.endLng !== 'number' || isNaN(arc.endLng)
+      ) {
+        continue; // Skip invalid arcs
+      }
       const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
+      if (!rgb) continue; // Skip if color is invalid
       points.push({
         size: defaultProps.pointSize,
         order: arc.order,
@@ -160,46 +175,79 @@ export function Globe({ globeConfig, data }: WorldProps) {
         .hexPolygonColor((e) => {
           return defaultProps.polygonColor;
         });
+      
+      // Disable frustum culling for hex polygons
+      globeRef.current.traverse((obj) => {
+        obj.frustumCulled = false;
+      });
+
       startAnimation();
     }
   }, [globeData]);
 
   const startAnimation = () => {
-    if (!globeRef.current || !globeData) return;
+    if (!globeRef.current || !globeData || !data) return;
 
-    globeRef.current
-      .arcsData(data)
-      .arcStartLat((d) => (d as { startLat: number }).startLat * 1)
-      .arcStartLng((d) => (d as { startLng: number }).startLng * 1)
-      .arcEndLat((d) => (d as { endLat: number }).endLat * 1)
-      .arcEndLng((d) => (d as { endLng: number }).endLng * 1)
-      .arcColor((e: any) => (e as { color: string }).color)
-      .arcAltitude((e) => {
-        return (e as { arcAlt: number }).arcAlt * 1;
-      })
-      .arcStroke((e) => {
-        return [0.32, 0.28, 0.3][Math.round(Math.random() * 2)];
-      })
-      .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e) => (e as { order: number }).order * 1)
-      .arcDashGap(15)
-      .arcDashAnimateTime((e) => defaultProps.arcTime);
-
-    globeRef.current
-      .pointsData(data)
-      .pointColor((e) => (e as { color: string }).color)
-      .pointsMerge(true)
-      .pointAltitude(0.0)
-      .pointRadius(2);
-
-    globeRef.current
-      .ringsData([])
-      .ringColor((e: any) => (t: any) => e.color(t))
-      .ringMaxRadius(defaultProps.maxRings)
-      .ringPropagationSpeed(RING_PROPAGATION_SPEED)
-      .ringRepeatPeriod(
-        (defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings
+    // Filter out invalid data
+    const validArcs = data.filter((d) => {
+      const arc = d as Position;
+      return (
+        arc &&
+        typeof arc.startLat === 'number' && !isNaN(arc.startLat) &&
+        typeof arc.startLng === 'number' && !isNaN(arc.startLng) &&
+        typeof arc.endLat === 'number' && !isNaN(arc.endLat) &&
+        typeof arc.endLng === 'number' && !isNaN(arc.endLng)
       );
+    });
+
+    if (validArcs.length === 0) return;
+
+    try {
+      globeRef.current
+        .arcsData(validArcs)
+        .arcStartLat((d) => (d as any).startLat)
+        .arcStartLng((d) => (d as any).startLng)
+        .arcEndLat((d) => (d as any).endLat)
+        .arcEndLng((d) => (d as any).endLng)
+        .arcColor((e: any) => e.color)
+        .arcAltitude((e: any) => e.arcAlt || 0)
+        .arcStroke((e: any) => [0.32, 0.28, 0.3][Math.round(Math.random() * 2)])
+        .arcDashLength(defaultProps.arcLength)
+        .arcDashInitialGap((e: any) => e.order || 0)
+        .arcDashGap(15)
+        .arcDashAnimateTime((e: any) => defaultProps.arcTime);
+
+      globeRef.current
+        .pointsData(globeData)
+        .pointColor((e: any) => {
+          const colorFn = e.color;
+          if (typeof colorFn === 'function') {
+            const rgba = colorFn(0);
+            const match = rgba.match(/rgba\((\d+),\s*(\d+),\s*(\d+),/);
+            return match ? `rgb(${match[1]}, ${match[2]}, ${match[3]})` : rgba;
+          }
+          return e.color || "#ffffff";
+        })
+        .pointsMerge(true)
+        .pointAltitude(0.0)
+        .pointRadius(2);
+
+      globeRef.current
+        .ringsData([])
+        .ringColor((e: any) => (t: number) => e.color(t))
+        .ringMaxRadius(defaultProps.maxRings)
+        .ringPropagationSpeed(RING_PROPAGATION_SPEED)
+        .ringRepeatPeriod(
+          (defaultProps.arcTime * defaultProps.arcLength) / (defaultProps.rings || 1)
+        );
+
+      // Disable frustum culling for any new objects added
+      globeRef.current.traverse((obj) => {
+        obj.frustumCulled = false;
+      });
+    } catch (err) {
+      console.error("Error initializing ThreeGlobe data:", err);
+    }
   };
 
   useEffect(() => {
@@ -207,14 +255,15 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     const interval = setInterval(() => {
       if (!globeRef.current || !globeData) return;
-      numbersOfRings = genRandomNumbers(
+      const newNumbersOfRings = genRandomNumbers(
         0,
         data.length,
         Math.floor((data.length * 4) / 5)
       );
+      setNumbersOfRings(newNumbersOfRings);
 
       globeRef.current.ringsData(
-        globeData.filter((d, i) => numbersOfRings.includes(i))
+        globeData.filter((d, i) => newNumbersOfRings.includes(i))
       );
     }, 2000);
 
@@ -225,7 +274,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   return (
     <>
-      <threeGlobe ref={globeRef} />
+      <threeGlobe ref={globeRef} frustumCulled={false} />
     </>
   );
 }
@@ -234,33 +283,36 @@ export function WebGLRendererConfig() {
   const { gl, size } = useThree();
 
   useEffect(() => {
+    if (!size || isNaN(size.width) || isNaN(size.height) || size.width === 0 || size.height === 0) {
+      return;
+    }
     gl.setPixelRatio(window.devicePixelRatio);
     gl.setSize(size.width, size.height);
     gl.setClearColor(0xffaaff, 0);
-  }, []);
+  }, [gl, size]);
 
   return null;
 }
 
 export function World(props: WorldProps) {
   const { globeConfig } = props;
-  const scene = new Scene();
-  scene.fog = new Fog(0xffffff, 400, 2000);
+
   return (
-    <Canvas scene={scene} camera={new PerspectiveCamera(50, aspect, 180, 1800)}>
+    <Canvas camera={{ position: [0, 0, cameraZ], fov: 50, near: 180, far: 1800 }}>
       <WebGLRendererConfig />
+      <fog attach="fog" args={["#ffffff", 400, 2000]} />
       <ambientLight color={globeConfig.ambientLight} intensity={0.6} />
       <directionalLight
         color={globeConfig.directionalLeftLight}
-        position={new Vector3(-400, 100, 400)}
+        position={[-400, 100, 400]}
       />
       <directionalLight
         color={globeConfig.directionalTopLight}
-        position={new Vector3(-200, 500, 200)}
+        position={[-200, 500, 200]}
       />
       <pointLight
         color={globeConfig.pointLight}
-        position={new Vector3(-200, 500, 200)}
+        position={[-200, 500, 200]}
         intensity={0.8}
       />
       <Globe {...props} />
@@ -279,12 +331,12 @@ export function World(props: WorldProps) {
 }
 
 export function hexToRgb(hex: string) {
-  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hex = hex.replace(shorthandRegex, function (m, r, g, b) {
     return r + r + g + g + b + b;
   });
 
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
         r: parseInt(result[1], 16),
