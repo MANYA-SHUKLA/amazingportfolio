@@ -101,21 +101,6 @@ const Certifications = () => {
         ))}
       </div>
 
-      {/* Stats */}
-      <div className="flex flex-wrap justify-center gap-6 mt-12">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">4</div>
-          <div className="text-white-200 text-sm">Certifications</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">3</div>
-          <div className="text-white-200 text-sm">Institutions</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">2025</div>
-          <div className="text-white-200 text-sm">Latest Year</div>
-        </div>
-      </div>
     </section>
   );
 };
