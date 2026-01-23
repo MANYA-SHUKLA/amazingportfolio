@@ -5,10 +5,13 @@ import { navItems } from "@/data";
 import Hero from "@/components/Hero";
 import Grid from "@/components/Grid";
 import Footer from "@/components/Footer";
-import Clients from "@/components/Clients";
 import Approach from "@/components/Approach";
+import WorkApproach from "@/components/WorkApproach";
 import Experience from "@/components/Experience";
 import RecentProjects from "@/components/RecentProjects";
+import ClientProjects from "@/components/ClientProjects";
+import Achievements from "@/components/Achievements";
+import Certifications from "@/components/Certifications";
 import { FloatingNav } from "@/components/ui/FloatingNavbar";
 
 const Home = () => {
@@ -19,9 +22,12 @@ const Home = () => {
         <Hero />
         <Grid />
         <RecentProjects />
-        <Clients />
+        <ClientProjects />
         <Experience />
         <Approach />
+        <WorkApproach />
+        <Achievements />
+        <Certifications />
         <Footer />
       </div>
     </main>

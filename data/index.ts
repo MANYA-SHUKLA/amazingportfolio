@@ -1,15 +1,15 @@
 export const navItems = [
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },
-  { name: "Testimonials", link: "#testimonials" },
+  { name: "Experience", link: "#experience" },
   { name: "Contact", link: "#contact" },
 ];
 
 export const gridItems = [
   {
     id: 1,
-    title: "I prioritize client collaboration, fostering open communication ",
-    description: "",
+    title: "Client & Team Collaboration",
+    description: "I prioritize clear communication, structured workflows, and regular updates to ensure smooth project execution.",
     className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
     imgClassName: "w-full h-full",
     titleClassName: "justify-end",
@@ -18,8 +18,8 @@ export const gridItems = [
   },
   {
     id: 2,
-    title: "I'm very flexible with time zone communications",
-    description: "",
+    title: "Time Zone Flexibility",
+    description: "Comfortable working with distributed teams and global clients across different time zones.",
     className: "lg:col-span-2 md:col-span-3 md:row-span-2",
     imgClassName: "",
     titleClassName: "justify-start",
@@ -38,8 +38,8 @@ export const gridItems = [
   },
   {
     id: 4,
-    title: "Tech enthusiast with a passion for development.",
-    description: "",
+    title: "Tech Enthusiast",
+    description: "Passionate about building products that balance clean code, performance, and modern UI/UX.",
     className: "lg:col-span-2 md:col-span-3 md:row-span-1",
     imgClassName: "",
     titleClassName: "justify-start",
@@ -49,7 +49,7 @@ export const gridItems = [
 
   {
     id: 5,
-    title: "Currently building a JS Animation library",
+    title: "NAUKRI JOB PORTAL WITH 7 PANELS",
     description: "The Inside Scoop",
     className: "md:col-span-3 md:row-span-2",
     imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
@@ -72,35 +72,35 @@ export const gridItems = [
 export const projects = [
   {
     id: 1,
-    title: "3D Solar System Planets to Explore",
-    des: "Explore the wonders of our solar system with this captivating 3D simulation of the planets using Three.js.",
+    title: "Real-Time Polling Platform",
+    des: "Full-stack real-time voting platform with instant updates and secure authentication.",
     img: "/p1.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/fm.svg"],
-    link: "/ui.earth.com",
+    iconLists: ["/next.svg", "/ts.svg", "/re.svg", "/tail.svg", "/c.svg"],
+    link: "#",
   },
   {
     id: 2,
-    title: "Yoom - Video Conferencing App",
-    des: "Simplify your video conferencing experience with Yoom. Seamlessly connect with colleagues and friends.",
+    title: "Habit Tracker & Social Accountability App",
+    des: "Habit management platform with streaks, social connections, and robust backend APIs.",
     img: "/p2.svg",
-    iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/stream.svg", "/c.svg"],
-    link: "/ui.yoom.com",
+    iconLists: ["/next.svg", "/ts.svg", "/tail.svg", "/re.svg", "/c.svg"],
+    link: "#",
   },
   {
     id: 3,
-    title: "AI Image SaaS - Canva Application",
-    des: "A REAL Software-as-a-Service app with AI features and a payments and credits system using the latest tech stack.",
+    title: "Queue Management System",
+    des: "Real-time queue and token management system with analytics and role-based access.",
     img: "/p3.svg",
-    iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-    link: "/ui.aiimg.com",
+    iconLists: ["/re.svg", "/ts.svg", "/tail.svg", "/c.svg"],
+    link: "#",
   },
   {
     id: 4,
-    title: "Animated Apple Iphone 3D Website",
-    des: "Recreated the Apple iPhone 15 Pro website, combining GSAP animations and Three.js 3D effects..",
+    title: "Animated Apple iPhone 3D Website",
+    des: "Apple-style immersive landing page using GSAP animations and Three.js 3D effects.",
     img: "/p4.svg",
     iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/three.svg", "/gsap.svg"],
-    link: "/ui.apple.com",
+    link: "#",
   },
 ];
 
@@ -173,31 +173,38 @@ export const companies = [
 export const workExperience = [
   {
     id: 1,
-    title: "Frontend Engineer Intern",
-    desc: "Assisted in the development of a web-based platform using React.js, enhancing interactivity.",
+    title: "Team Lead - Tech & Operations | CODYSSEY",
+    desc: "Leading the Naukri project and a 3-panel system, handling technical execution, operations, and team coordination. Remote | Nov 2025 – Jan 2025",
     className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
   {
     id: 2,
-    title: "Mobile App Dev - JSM Tech",
-    desc: "Designed and developed mobile app for both iOS & Android platforms using React Native.",
-    className: "md:col-span-2", // change to md:col-span-2
+    title: "Full Stack Developer (Intern) | Shiplee.ai",
+    desc: "Migrating legacy PHP to MERN stack, building scalable Admin Panel, and implementing WebSockets for real-time shipment tracking. Remote | Sept 2025 – Nov 2025",
+    className: "md:col-span-2",
     thumbnail: "/exp2.svg",
   },
   {
     id: 3,
-    title: "Freelance App Dev Project",
-    desc: "Led the dev of a mobile app for a client, from initial concept to deployment on app stores.",
-    className: "md:col-span-2", // change to md:col-span-2
+    title: "Full Stack Developer (Intern) | Baby Code",
+    desc: "Delivered 2–3 high-quality animated UI variants daily for IELTS platform with integrated auth and course modules. Remote | Oct 2025 - Nov 2025",
+    className: "md:col-span-2",
     thumbnail: "/exp3.svg",
   },
   {
     id: 4,
-    title: "Lead Frontend Developer",
-    desc: "Developed and maintained user-facing features using modern frontend technologies.",
+    title: "Software Trainee (Intern) | Infografter",
+    desc: "Developing MERN-based interactive kids learning platform with engaging educational content. Supporting project management and internal operations. Remote | Sept 2025 - Nov 2025",
     className: "md:col-span-2",
     thumbnail: "/exp4.svg",
+  },
+  {
+    id: 5,
+    title: "Full Stack Developer (Intern) | Zentrok",
+    desc: "Built full-stack physiotherapy platform with Next.js and MongoDB. Developed 'Oxygen Times' e-commerce demo for healthcare equipment. Hybrid | Aug 2025 - Sept 2025",
+    className: "md:col-span-2",
+    thumbnail: "/exp1.svg",
   },
 ];
 
@@ -205,13 +212,21 @@ export const socialMedia = [
   {
     id: 1,
     img: "/git.svg",
+    link: "https://github.com/MANYA-SHUKLA",
   },
   {
     id: 2,
-    img: "/twit.svg",
+    img: "/link.svg",
+    link: "https://www.linkedin.com/in/manya-shukla99/",
   },
   {
     id: 3,
-    img: "/link.svg",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQEerXqV43cdpA/profile-displayphoto-scale_400_400/B56ZrjuMwCMIAg-/0/1764757131881?e=1770854400&v=beta&t=vBydB5YE6cfFO0u-c7YERQPuDXmhUyPLMK29-RKxqNM",
+    link: "https://manya-shukla.vercel.app/",
+  },
+  {
+    id: 4,
+    img: "/wha.svg",
+    link: "https://wa.me/918005586588",
   },
 ];

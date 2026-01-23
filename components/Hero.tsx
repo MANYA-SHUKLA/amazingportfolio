@@ -42,6 +42,15 @@ const Hero = () => {
 
       <div className="flex justify-center relative my-20 z-10">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
+          {/* Profile Image */}
+          <div className="mb-8">
+            <img
+              src="https://media.licdn.com/dms/image/v2/D5603AQEerXqV43cdpA/profile-displayphoto-scale_400_400/B56ZrjuMwCMIAg-/0/1764757131881?e=1770854400&v=beta&t=vBydB5YE6cfFO0u-c7YERQPuDXmhUyPLMK29-RKxqNM"
+              alt="Manya Shukla"
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-purple/50 shadow-xl object-cover"
+            />
+          </div>
+
           <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
             Dynamic Web Magic with Next.js
           </p>
@@ -52,17 +61,17 @@ const Hero = () => {
            *  change md:text-6xl, add more responsive code
            */}
           <TextGenerateEffect
-            words="Transforming Concepts into Seamless User Experiences"
+            words="Transforming Concepts into Seamless, Scalable User Experiences"
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
           />
 
           <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            Hi! I&apos;m Manya, a Next.js Developer based in India.
+            Hi, I&apos;m Manya Shukla — a Full Stack Developer & B.Tech CSE student (JNU 2027) building high-performance, real-time, and visually immersive web applications using Next.js, TypeScript, MERN, Three.js & GSAP.
           </p>
 
           <a href="#about">
             <MagicButton
-              title="Show my work"
+              title="Show My Work"
               icon={<FaLocationArrow />}
               position="right"
             />
