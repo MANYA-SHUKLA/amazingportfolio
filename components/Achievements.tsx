@@ -101,21 +101,6 @@ const Achievements = () => {
         ))}
       </div>
 
-      {/* Impact Stats */}
-      <div className="flex flex-wrap justify-center gap-8 mt-12">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">4</div>
-          <div className="text-white-200 text-sm">Achievements</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">4</div>
-          <div className="text-white-200 text-sm">Categories</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple">2025</div>
-          <div className="text-white-200 text-sm">Current Year</div>
-        </div>
-      </div>
     </section>
   );
 };
