@@ -51,9 +51,6 @@ const Hero = () => {
             />
           </div>
 
-          <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Dynamic Web Magic with Next.js
-          </p>
 
           {/**
            *  Link: https://ui.aceternity.com/components/text-generate-effect
