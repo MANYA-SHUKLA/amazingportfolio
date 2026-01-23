@@ -13,7 +13,7 @@ const achievements = [
   },
   {
     id: 2,
-    title: "200+ DSA Problems Solved",
+    title: "250+ DSA Problems Solved",
     subtitle: "Algorithmic Excellence",
     description: "Mastered data structures and algorithms through consistent problem-solving practice",
     icon: "🧠",
