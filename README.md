@@ -153,11 +153,19 @@ Successfully delivered production-ready solutions for:
 - **Certification Display**: Validated skills through recognized certifications
 - **Category-based Organization**: Organized by Leadership, Technical, Sports, and Service categories
 
-### 7. **Development Approach**
+### 7. **Services I Offer**
+- **Service Cards**: Custom Websites, UI/UX Design, SEO Optimization, E-commerce Solutions, Maintenance & Hosting, Performance Optimization, API Integration, Web Animations
+- **Responsive Grid**: Two-column layout with hover effects and purple accents
+
+### 8. **FAQ**
+- **Accordion**: Frequently asked questions about contact, hiring, remote work, tech stack, and full-stack capabilities
+- **One-at-a-time Expand**: Click any question to show or hide the answer
+
+### 9. **Development Approach**
 - **Canvas Reveal Effect**: Unique hover-triggered visual reveal for different development phases
 - **Phase-based Strategy**: Explains the process from "Planning & Strategy" to "Development & Launch"
 
-### 8. **Interactive Footer**
+### 10. **Interactive Footer**
 - **Contact Form**: Direct "Let's get in touch" call to action
 - **Social Media Links**: Integrated social profiles with glassmorphism effects
 - **Background Grid**: A subtle footer grid for a cohesive design finish
@@ -166,28 +174,41 @@ Successfully delivered production-ready solutions for:
 
 ```
 amazingportfolio/
-├── app/                    # Next.js App Router pages and global styles
-│   ├── api/               # API routes
-│   ├── global-error.tsx   # Global error handling
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx          # Homepage
-│   └── provider.tsx      # Context providers
-├── components/            # Reusable React components
-│   ├── ui/               # Low-level UI components (Aceternity UI, custom effects)
-│   ├── Achievements.tsx  # Achievements section
-│   ├── Certifications.tsx # Certifications display
-│   ├── ClientProjects.tsx # Client work showcase
-│   ├── Experience.tsx    # Work experience
-│   ├── Hero.tsx         # Hero section
-│   └── ...
-├── data/                 # Centralized data
-│   └── index.ts         # Projects, testimonials, experience data
-├── lib/                  # Utility functions
-├── public/              # Static assets
-│   ├── *.svg           # Icons and illustrations
-│   └── *.png           # Images
-└── ...
+├── app/
+│   ├── api/                    # API routes (e.g. Sentry example)
+│   ├── global-error.tsx        # Global error handling
+│   ├── globals.css              # Global styles
+│   ├── layout.tsx               # Root layout
+│   ├── page.tsx                 # Homepage
+│   ├── provider.tsx             # Theme/context providers
+│   └── sentry-example-page/     # Sentry test page
+├── components/
+│   ├── ui/                      # Shared UI (BentoGrid, FloatingNavbar, Globe, etc.)
+│   ├── Achievements.tsx
+│   ├── Approach.tsx            # Tech stack cards with canvas reveal
+│   ├── Certifications.tsx
+│   ├── ClientProjects.tsx
+│   ├── Experience.tsx
+│   ├── FAQ.tsx                  # FAQ accordion
+│   ├── Footer.tsx
+│   ├── Grid.tsx                 # About / Bento grid
+│   ├── Hero.tsx
+│   ├── RecentProjects.tsx
+│   ├── Services.tsx            # Services I Offer
+│   └── WorkApproach.tsx
+├── data/
+│   ├── index.ts                 # navItems, gridItems, projects, experience, etc.
+│   ├── confetti.json
+│   └── globe.json
+├── lib/
+│   └── utils.ts
+├── public/                      # Static assets (SVGs, images)
+├── instrumentation-client.ts     # Sentry client init
+├── instrumentation.ts
+├── next.config.ts
+├── sentry.server.config.ts
+├── sentry.edge.config.ts
+└── tailwind.config.ts
 ```
 
 ## 🛠️ Getting Started

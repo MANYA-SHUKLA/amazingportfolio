@@ -12,10 +12,6 @@ export const CanvasRevealEffect = ({
   dotSize,
   showGradient = true,
 }: {
-  /**
-   * 0.1 - slower
-   * 1.0 - faster
-   */
   animationSpeed?: number;
   opacities?: number[];
   colors?: number[][];
@@ -211,12 +207,10 @@ const ShaderMaterial = ({
     }
   });
 
-  // Ensure size is valid (not NaN, undefined, or zero)
   const isValidSize = !!(size && size.width && size.height && !isNaN(size.width) && !isNaN(size.height) && size.width > 0 && size.height > 0);
   const validWidth = isValidSize ? size.width : 1;
   const validHeight = isValidSize ? size.height : 1;
 
-  // Shader material
   const material = useMemo(() => {
     if (!isValidSize) return null;
     const getUniforms = () => {
@@ -258,7 +252,7 @@ const ShaderMaterial = ({
       preparedUniforms["u_time"] = { value: 0 };
       preparedUniforms["u_resolution"] = {
         value: new THREE.Vector2(validWidth * 2, validHeight * 2),
-      }; // Initialize u_resolution
+      };
       return preparedUniforms;
     };
 
@@ -284,7 +278,6 @@ const ShaderMaterial = ({
     return materialObject;
   }, [uniforms, validWidth, validHeight, source, isValidSize]);
 
-  // Update resolution uniform when size changes
   useEffect(() => {
     if (isValidSize && ref.current && material) {
       const materialObj = ref.current.material as THREE.ShaderMaterial;
@@ -294,7 +287,6 @@ const ShaderMaterial = ({
     }
   }, [validWidth, validHeight, material, isValidSize]);
 
-  // Check if size is valid before rendering
   if (!isValidSize || !material) {
     return null;
   }

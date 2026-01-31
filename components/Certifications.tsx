@@ -58,23 +58,19 @@ const Certifications = () => {
                 "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
             }}
           >
-            {/* Decorative elements */}
             <div className="absolute top-4 right-4 opacity-20">
               <div className="text-2xl">{cert.icon}</div>
             </div>
 
             <div className="relative z-10">
-              {/* Certification Number */}
               <div className="text-purple/50 font-mono text-sm mb-3">
                 0{cert.id}
               </div>
 
-              {/* Certification Title */}
               <h3 className="text-lg font-bold text-white mb-2 group-hover:text-purple transition-colors">
                 {cert.title}
               </h3>
 
-              {/* Issuer */}
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-purple font-semibold text-sm">
                   {cert.issuer}
@@ -84,18 +80,15 @@ const Certifications = () => {
                 </span>
               </div>
 
-              {/* Description */}
               <p className="text-white-200 text-sm leading-relaxed">
                 {cert.description}
               </p>
 
-              {/* Verified Badge */}
               <div className="mt-4 flex items-center gap-2">
                 <span className="text-green-500 text-sm">✓ Verified</span>
               </div>
             </div>
 
-            {/* Hover Effect Gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple/0 via-purple/5 to-purple/0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
           </div>
         ))}

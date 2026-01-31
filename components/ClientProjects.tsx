@@ -21,7 +21,6 @@ const ClientProjects = () => {
       </p>
 
       <div className="flex flex-col items-center gap-8 mt-12">
-        {/* Tech Stack */}
         <div className="flex flex-wrap justify-center gap-3 mb-4">
           {["Next.js", "TypeScript", "Tailwind CSS", "Nodemailer"].map((tech, index) => (
             <span
@@ -33,7 +32,6 @@ const ClientProjects = () => {
           ))}
         </div>
 
-        {/* Client Projects Grid */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
           {clientProjects.map((project) => (
             <div
@@ -45,41 +43,34 @@ const ClientProjects = () => {
                   "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
               }}
             >
-              {/* Decorative corner */}
               <div className="absolute top-0 right-0 w-20 h-20 opacity-20">
                 <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-purple rounded-tr-lg"></div>
               </div>
 
               <div className="relative z-10">
-                {/* Project Number */}
                 <div className="text-purple/50 font-mono text-sm mb-3">
                   0{project.id}
                 </div>
 
-                {/* Project Name */}
                 <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple transition-colors">
                   {project.name}
                 </h3>
 
-                {/* Category */}
                 <p className="text-white-200 text-sm">
                   {project.category}
                 </p>
 
-                {/* Status Badge */}
                 <div className="mt-4 flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                   <span className="text-xs text-green-500 font-medium">Live & Active</span>
                 </div>
               </div>
 
-              {/* Hover Effect Gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple/0 via-purple/5 to-purple/0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
             </div>
           ))}
         </div>
 
-        {/* Trust Badge */}
         <div className="mt-8 flex items-center gap-3 px-6 py-3 rounded-full border border-purple/30 bg-purple/5">
           <div className="flex -space-x-2">
             {[1, 2, 3, 4, 5].map((i) => (

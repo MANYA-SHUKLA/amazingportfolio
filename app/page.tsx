@@ -12,6 +12,8 @@ import RecentProjects from "@/components/RecentProjects";
 import ClientProjects from "@/components/ClientProjects";
 import Achievements from "@/components/Achievements";
 import Certifications from "@/components/Certifications";
+import FAQ from "@/components/FAQ";
+import Services from "@/components/Services";
 import { FloatingNav } from "@/components/ui/FloatingNavbar";
 
 const Home = () => {
@@ -28,6 +30,8 @@ const Home = () => {
         <WorkApproach />
         <Achievements />
         <Certifications />
+        <Services />
+        <FAQ />
         <Footer />
       </div>
     </main>

@@ -58,44 +58,36 @@ const Achievements = () => {
                 "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
             }}
           >
-            {/* Decorative elements */}
             <div className="absolute top-4 right-4 opacity-20">
               <div className="text-3xl">{achievement.icon}</div>
             </div>
 
             <div className="relative z-10">
-              {/* Achievement Number */}
               <div className="text-purple/50 font-mono text-sm mb-3">
                 0{achievement.id}
               </div>
 
-              {/* Achievement Title */}
               <h3 className="text-xl font-bold text-white mb-1 group-hover:text-purple transition-colors">
                 {achievement.title}
               </h3>
 
-              {/* Subtitle */}
               <p className="text-purple font-medium text-sm mb-3">
                 {achievement.subtitle}
               </p>
 
-              {/* Category Badge */}
               <span className="inline-block px-3 py-1 rounded-full bg-purple/10 border border-purple/20 text-purple text-xs mb-3">
                 {achievement.category}
               </span>
 
-              {/* Description */}
               <p className="text-white-200 text-sm leading-relaxed">
                 {achievement.description}
               </p>
 
-              {/* Achievement Badge */}
               <div className="mt-4 flex items-center gap-2">
                 <span className="text-yellow-500 text-sm">🏆 Achievement</span>
               </div>
             </div>
 
-            {/* Hover Effect Gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple/0 via-purple/5 to-purple/0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
           </div>
         ))}

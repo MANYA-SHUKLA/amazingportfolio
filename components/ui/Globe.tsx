@@ -110,17 +110,16 @@ export function Globe({ globeConfig, data }: WorldProps) {
     const points: GlobePoint[] = [];
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
-      // Validate that all required values are valid numbers
       if (
         typeof arc.startLat !== 'number' || isNaN(arc.startLat) ||
         typeof arc.startLng !== 'number' || isNaN(arc.startLng) ||
         typeof arc.endLat !== 'number' || isNaN(arc.endLat) ||
         typeof arc.endLng !== 'number' || isNaN(arc.endLng)
       ) {
-        continue; // Skip invalid arcs
+        continue;
       }
       const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
-      if (!rgb) continue; // Skip if color is invalid
+      if (!rgb) continue;
       points.push({
         size: defaultProps.pointSize,
         order: arc.order,
@@ -137,7 +136,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
       });
     }
 
-    // remove duplicates for same lat and lng
     const filteredPoints = points.filter(
       (v, i, a) =>
         a.findIndex((v2) =>
@@ -153,7 +151,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
   const startAnimation = useCallback(() => {
     if (!globeRef.current || !globeData || !data) return;
 
-    // Filter out invalid data
     const validArcs = data.filter((d) => {
       const arc = d as Position;
       return (
@@ -207,7 +204,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
           (defaultProps.arcTime * defaultProps.arcLength) / (defaultProps.rings || 1)
         );
 
-      // Disable frustum culling for any new objects added
       globeRef.current.traverse((obj) => {
         obj.frustumCulled = false;
       });
@@ -219,7 +215,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
   useEffect(() => {
     if (globeRef.current) {
       globeRef.current.frustumCulled = false;
-      // Disable frustum culling for all children to prevent NaN bounding sphere errors
       globeRef.current.traverse((obj) => {
         obj.frustumCulled = false;
       });
@@ -240,8 +235,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
         .hexPolygonColor(() => {
           return defaultProps.polygonColor;
         });
-      
-      // Disable frustum culling for hex polygons
+
       globeRef.current.traverse((obj) => {
         obj.frustumCulled = false;
       });
