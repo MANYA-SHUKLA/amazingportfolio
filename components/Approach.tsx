@@ -162,7 +162,6 @@ const AceternityIcon = ({ order }: { order: string }) => {
     </div>
   );
 };
-
 export const Icon = ({
   className,
   ...rest
