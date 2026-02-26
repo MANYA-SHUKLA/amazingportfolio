@@ -1,6 +1,5 @@
 import { gridItems } from "@/data";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
-
 const Grid = () => {
   return (
     <section id="about">
@@ -22,5 +21,4 @@ const Grid = () => {
     </section>
   );
 };
-
 export default Grid;
