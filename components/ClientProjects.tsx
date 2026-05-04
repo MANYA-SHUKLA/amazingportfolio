@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 const clientProjects = [
   { id: 1, name: "Foodies Cafe", category: "Restaurant & Food Service" },
   { id: 2, name: "Codyssey Services", category: "Tech Services" },
