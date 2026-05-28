@@ -7,7 +7,6 @@ const clientProjects = [
   { id: 4, name: "Freelancerwala", category: "Freelance Platform" },
   { id: 5, name: "Kosi Naturals", category: "Natural Products" },
 ];
-
 const ClientProjects = () => {
   return (
     <section className="py-20 w-full">
